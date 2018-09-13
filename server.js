@@ -71,6 +71,17 @@ app.get("/scrape", function (req, res) {
     });
 });
 
+app.get("/articles", function(req, res) {
+    // TODO: Finish the route so it grabs all of the articles
+    db1.Article.find({})
+      .then(function(data){
+        var hbsObject = {
+            articles: data
+        }
+        res.render('index', hbsObject)
+      })
+  });
+
 
 
 app.listen(PORT, function () {
