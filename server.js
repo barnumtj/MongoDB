@@ -74,7 +74,7 @@ app.get("/scrape", function (req, res) {
     });
 });
 
-app.get("/articles", function(req, res) {
+app.get("/", function(req, res) {
     // TODO: Finish the route so it grabs all of the articles
     db1.Article.find({})
       .then(function(data){
@@ -94,6 +94,10 @@ app.get("/articles/:id", function(req, res){
         res.json(data)
         console.log(data)
     })
+})
+
+app.get("/saved", function(req, res){
+    res.render('saved')
 })
 
 
