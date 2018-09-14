@@ -7,7 +7,18 @@
     <title>Mongo</title>
 </head>
 <body>
-    
+    {{#each articles}}
+    {{#if saved}}
+        <ul>
+                <li id="articleTitle"><span>{{this.title}}</span></li>
+                <li id="articleSummary"><span> {{this.summary}}</span></li>
+                <div>
+                <li id="articleLink"> <a href="{{this.link}}">Go to Article</a> <button  data-id="{{this._id}}" id='saveButton' class='btn-primary'>Save</button></li>
+                </div>
+            </ul>
+          {{/if}}
+          {{/each}}
+   
     
 </body>
 </html>

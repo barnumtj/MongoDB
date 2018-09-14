@@ -4,6 +4,7 @@ var mongoose = require("mongoose")
 var request = require("request");
 var cheerio = require("cheerio");
 var db1 = require("./models")
+var router = express.Router();
 var PORT = 4200;
 
 // Initialize Express
@@ -96,9 +97,23 @@ app.get("/articles/:id", function(req, res){
     })
 })
 
-app.get("/saved", function(req, res){
-    res.render('saved')
+app.get('/save/:id', (req,res) => {
+    db1.Article
+      .update({_id: req.params.id},{saved: true})
+      .then(result=> res.redirect('/'))
+      .catch(err => res.json(err));
+});
+
+app.get('/saved', function(req, res){
+    db1.Article.find({"saved": true})
+    .then(function(data){
+        var hbsObject = {
+            articles: data
+        }
+    res.render('saved', hbsObject)
 })
+})
+
 
 
 

@@ -14,7 +14,8 @@ var articleSchema = new Schema({
   },
 
   summary: {
-      type: String
+      type: String,
+     
   },
   // link is a required string
   link: {
@@ -24,6 +25,10 @@ var articleSchema = new Schema({
   comment: {
     type: String,
     ref: 'Comment'
+  },
+  saved: {
+    type: Boolean,
+    default: false
   }
  
 });
