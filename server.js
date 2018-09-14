@@ -23,18 +23,18 @@ mongoose.connect(MONGODB_URI)
 
 
 
-var db = mongoose.connection;
 
 
 
-db.on("error", function (error) {
-    console.log("Mongoose Error: ", error);
-});
 
-// Once logged in to the db through mongoose, log a success message
-db.once("open", function () {
-    console.log("Mongoose connection successful.");
-});
+// db.on("error", function (error) {
+//     console.log("Mongoose Error: ", error);
+// });
+
+// // Once logged in to the db through mongoose, log a success message
+// db.once("open", function () {
+//     console.log("Mongoose connection successful.");
+// });
 
 
 
@@ -54,7 +54,10 @@ app.get("/scrape", function (req, res) {
             results.summary = $(element).find('p.summary').text();
             results.link = $(element).find('a').attr('href').split(",")[0].split(" ")[0];
 
-            if (results.summary !== "") {
+            if (results.summary !== '') {
+                db1.Article.remove({}, function(err) { 
+                    console.log('collection removed') 
+                 });
                 db1.Article.create(results)
                 .then(function(data) {
                   // View the added result in the console
@@ -79,8 +82,21 @@ app.get("/articles", function(req, res) {
             articles: data
         }
         res.render('index', hbsObject)
-      })
-  });
+        console.log(hbsObject)
+    })
+    
+});
+
+app.get("/articles/:id", function(req, res){
+    db1.Article.find({})
+    .populate("comment")
+    .then(function(data){
+        res.json(data)
+        console.log(data)
+    })
+})
+
+
 
 
 

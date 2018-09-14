@@ -8,7 +8,8 @@ var Schema = mongoose.Schema;
 var articleSchema = new Schema({
   // title is a required string
   title: {
-    type: String
+    type: String,
+    unique: true
     // required: true
   },
 
