@@ -4,11 +4,15 @@ var mongoose = require("mongoose")
 var request = require("request");
 var cheerio = require("cheerio");
 var db1 = require("./models")
-var router = express.Router();
+var morgan = require('morgan')
+var path = require('path')
 var PORT = 4200;
 
 // Initialize Express
 var app = express();
+app.use(morgan("dev"));
+
+app.use("/public", express.static(path.join(__dirname, 'public')));
 
 var exphbs = require("express-handlebars");
 
@@ -61,11 +65,8 @@ app.get("/scrape", function (req, res) {
                  });
                 db1.Article.create(results)
                 .then(function(data) {
-                  // View the added result in the console
-                  console.log(data);
                 })
                 .catch(function(err) {
-                  // If an error occurred, send it to the client
                   return res.json(err);
                 });
 
@@ -76,7 +77,7 @@ app.get("/scrape", function (req, res) {
 });
 
 app.get("/", function(req, res) {
-    // TODO: Finish the route so it grabs all of the articles
+    // grab all the articles to display
     db1.Article.find({})
       .then(function(data){
         var hbsObject = {
@@ -98,9 +99,10 @@ app.get("/articles/:id", function(req, res){
 })
 
 app.get('/save/:id', (req,res) => {
+    // update article to saved when save is clicked changing saved to 'true'
     db1.Article
       .update({_id: req.params.id},{saved: true})
-      .then(result=> res.redirect('/'))
+      .then(function(){ res.redirect('/')})
       .catch(err => res.json(err));
 });
 
@@ -110,9 +112,19 @@ app.get('/saved', function(req, res){
         var hbsObject = {
             articles: data
         }
-    res.render('saved', hbsObject)
+        res.render('saved', hbsObject)
+    })
 })
+
+app.put('/delete/:id', function(req, res){
+    db1.Article
+    .update({_id: req.params.id},{$set: {saved: false}})
+    .then(function(){res.redirect('saved')})
+    .catch(function(err){
+        res.json(err);
+    })
 })
+
 
 
 

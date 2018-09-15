@@ -1,0 +1,29 @@
+#scrapeButton {
+    background-color: #BF0000;
+}
+#savedButton {
+    background-color: #BF0000;
+}
+#clearButton {
+    background-color: #BF0000;
+}
+
+#articleTitle {
+    font-weight: 900;
+    font-size: 2rem;
+    background-color: #BF0000;
+    color: white;
+}
+
+#kcSportsPic {
+    height: 200px;
+    margin: auto;
+    width: 100%;
+}
+
+#navContainer {
+    margin: auto;
+    margin-left: 2rem;
+    width: 100%;
+    
+}

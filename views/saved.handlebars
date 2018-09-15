@@ -5,20 +5,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Mongo</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="../public/style.css">
 </head>
 <body>
     {{#each articles}}
     {{#if saved}}
         <ul>
-                <li id="articleTitle"><span>{{this.title}}</span></li>
-                <li id="articleSummary"><span> {{this.summary}}</span></li>
-                <div>
-                <li id="articleLink"> <a href="{{this.link}}">Go to Article</a> <button  data-id="{{this._id}}" id='saveButton' class='btn-primary'>Save</button></li>
-                </div>
-            </ul>
-          {{/if}}
-          {{/each}}
+            <li id="articleTitle"><span>{{this.title}}</span></li>
+            <li id="articleSummary"><span> {{this.summary}}</span></li>
+            <div>
+                <li id="articleLink"> <a href="{{this.link}}">Go to Article</a> 
+                <button  data-id="{{this._id}}" id='deleteButton' class='btn-primary'>Delete</button>
+                </li>
+            </div>
+        </ul>
+        {{/if}}
+        {{/each}}
+   
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    $('#deleteButton').click(function(){
+    console.log('clicked')
+    let articleId = $(this).data('id');
+    $.ajax({
+      url: '/delete/'+articleId,
+      type: 'PUT',
+      success: function (response) {
+        window.location.href = '/saved';
+      },
+      error: function (error) {
+        
+      }
+    });
+});
    
     
+</script>
+ 
 </body>
 </html>
