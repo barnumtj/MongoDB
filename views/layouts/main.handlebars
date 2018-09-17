@@ -22,29 +22,13 @@
             <span class="navbar-brand mb-0 h1">
                 <button id='scrapeButton' type="button" class="btn btn-primary">Scrape New Articles</button>
                 <button id='clearButton' type="button" class="btn btn-primary">Clear Articles</button>
-                <button id='savedButton' class='btn btn-primary'>Saved</button>
+                <button id='savedButton'  type="button" class='btn btn-primary'>Saved</button>
             </span>
         </nav>
         {{{body}}}
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script>
-            $('#clearButton').click(function () {
-                $('#articles').html('')
-            });
-            $('#scrapeButton').click(function () {
-                location.href = '/scrape'
-                location.href = '/'
-                console.log('clicked')
-            })
-            $('#savedButton').click(function () {
-                console.log('clicked')
-                location.href = '/saved'
-
-            })
-
-        </script>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="../../public/js/app.js"></script>
 </body>
 
 </html>

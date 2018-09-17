@@ -18,31 +18,29 @@
             <div>
                 <li id="articleLink"> <a href="{{this.link}}">Go to Article</a> 
                 <button  data-id="{{this._id}}" id='deleteButton' class='btn-primary'>Delete</button>
+                <button class='btn-primary' id="commentButton">Open Modal</button>
+
+                <!-- The Modal -->
+                <div id="myModal" class="modal">
+
+                    <!-- Modal content -->
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <h1>Notes For {{this.id}}</h1>
+                        
+                        <button>Submit</button>
+                    </div>
                 </li>
+                
             </div>
         </ul>
         {{/if}}
         {{/each}}
-   
+
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script>
-    $('#deleteButton').click(function(){
-    console.log('clicked')
-    let articleId = $(this).data('id');
-    $.ajax({
-      url: '/delete/'+articleId,
-      type: 'PUT',
-      success: function (response) {
-        window.location.href = '/saved';
-      },
-      error: function (error) {
-        
-      }
-    });
-});
-   
-    
-</script>
- 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<script src="../public/js/app.js"></script> 
 </body>
 </html>
