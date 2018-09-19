@@ -1,16 +1,19 @@
 var express = require("express");
-var mongoose = require("mongoose")
-// Require request and cheerio. This makes the scraping possible
+var mongoose = require("mongoose");
 var request = require("request");
 var cheerio = require("cheerio");
-var db1 = require("./models")
-var morgan = require('morgan')
-var path = require('path')
+var db1 = require("./models");
+var morgan = require('morgan');
+var path = require('path');
+var bodyParser = require('body-parser')
 var PORT = 4200;
 
 // Initialize Express
 var app = express();
 app.use(morgan("dev"));
+
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use("/public", express.static(path.join(__dirname, 'public')));
 
@@ -24,7 +27,7 @@ var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/newscraper";
 // Set mongoose to leverage built in JavaScript ES6 Promises
 // Connect to the Mongo DB
 mongoose.Promise = Promise;
-mongoose.connect(MONGODB_URI)
+mongoose.connect(MONGODB_URI);
 
 
 
@@ -60,9 +63,9 @@ app.get("/scrape", function (req, res) {
             results.link = $(element).find('a').attr('href').split(",")[0].split(" ")[0];
 
             if (results.summary !== '') {
-                db1.Article.remove({}, function(err) { 
-                    console.log('collection removed') 
-                 });
+                // db1.Article.remove({}, function(err) { 
+                //     console.log('collection removed') 
+                //  });
                 db1.Article.create(results)
                 .then(function(data) {
                 })
@@ -89,14 +92,15 @@ app.get("/", function(req, res) {
     
 });
 
-app.get("/articles/:id", function(req, res){
-    db1.Article.find({})
+app.get('/article/:id', function(req, res){
+    db1.Article.findOne({_id: req.params.id})
     .populate("comment")
-    .then(function(data){
-        res.json(data)
-        console.log(data)
-    })
-})
+    .then(function(article){
+        res.render('comment', {article})
+        console.log(article)
+    });
+    
+});
 
 app.get('/save/:id', (req,res) => {
     // update article to saved when save is clicked changing saved to 'true'
@@ -125,9 +129,33 @@ app.put('/delete/:id', function(req, res){
     })
 })
 
+app.post('/comment/:id', function(req, res){
+    db1.Comment.create({comment: req.body.comment})
+    .then(function(comment){
 
+    return db1.Article.findOneAndUpdate(
+            {_id: req.params.id},
+            {$push: {comment: comment._id}},
+            {new: true}
+        )
+        .then(function(){
+        res.json(comment)
+    })   
+})
+    // .then(function(){res.redirect('saved')})
+    .catch(function(err){
+        res.json(err)
+    })
+})
 
-
+app.put('/comment/:id', function(req, res){
+    db1.Comment
+    .update({_id: req.params.id},{$set: {deleted: true}})
+    .then(function(){res.redirect('saved')})
+    .catch(function(err){
+        res.json(err);
+    })
+})
 
 
 

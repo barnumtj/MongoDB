@@ -8,15 +8,18 @@ var Schema = mongoose.Schema;
 var CommentSchema = new Schema({
   // title is a required string
   comment: {
-    type: String
+    type: String,
+    required: true
     // required: true
   },
-
-
+  deleted: {
+    type: Boolean,
+    default: false
+  }
 });
 
 // Create the comment model with the CommentSchema
-var comment = mongoose.model("Comment", CommentSchema);
+var Comment = mongoose.model("Comment", CommentSchema);
 
 // Export the model
-module.exports = comment;
+module.exports = Comment;

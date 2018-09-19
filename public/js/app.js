@@ -13,29 +13,14 @@ $('#savedButton').click(function () {
 
 })
 
-var modal = document.getElementById('myModal');
-
-var span = document.getElementsByClassName("close")[0];
-
-
-
-$('#commentButton').click(function(){ 
+$('.viewArticleButton').click(function(){ 
     console.log('clicked')
-    modal.style.display = "block";
-    span.onclick = function() {
-        modal.style.display = "none";
-    }
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-    }
+    window.location.href = `/article/${$(this).attr('data-id')}`
 });
 
 
 
-$('#deleteButton').click(function(){
+$('.deleteButton').click(function(){
     console.log('clicked')
     let articleId = $(this).data('id');
     $.ajax({
@@ -51,7 +36,7 @@ $('#deleteButton').click(function(){
   
 });
 
-$('#saveButton').click(function(){  
+$('.saveButton').click(function(){  
     let articleId = $(this).data('id');
     $.ajax({
       url: '/save/'+articleId,
@@ -64,4 +49,39 @@ $('#saveButton').click(function(){
       }
     });
   });
+
+  $('.commentButton').click(function(e){
+      e.preventDefault()
+     let text = $('#commentText').val();
+     let articleId = $(this).attr('data-id');
+     $.ajax({
+        url: '/comment/'+articleId,
+        type: 'POST',
+        data: {
+            comment: text
+        },
+        success: function (response) {
+         window.location.reload();
+        },
+        error: function (error) {
+          console.log(error)
+        }
+      });
+  });
+
+  $('.del').click(function(e){
+      console.log('clicked')
+      let articleId = $(this).data('id');
+      $.ajax({
+        url: '/comment/'+articleId,
+        type: 'PUT',
+        success: function (response) {
+          window.location.reload();
+        },
+        error: function (error) {  
+        }
+      });
+    
+  });
+
 
