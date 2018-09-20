@@ -4,7 +4,6 @@ $('#clearButton').click(function () {
 
 $('#scrapeButton').click(function () {
     location.href = '/scrape'
-    location.href = '/'
     console.log('clicked')
 })
 $('#savedButton').click(function () {
