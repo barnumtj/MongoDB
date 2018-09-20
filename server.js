@@ -6,7 +6,7 @@ var db1 = require("./models");
 var morgan = require('morgan');
 var path = require('path');
 var bodyParser = require('body-parser')
-var PORT = 4200;
+var PORT = process.env.PORT || 4200
 
 // Initialize Express
 var app = express();
@@ -28,24 +28,6 @@ var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/newscraper";
 // Connect to the Mongo DB
 mongoose.Promise = Promise;
 mongoose.connect(MONGODB_URI);
-
-
-
-
-
-
-
-db1.on("error", function (error) {
-    console.log("Mongoose Error: ", error);
-});
-
-// Once logged in to the db through mongoose, log a success message
-db1.once("open", function () {
-    console.log("Mongoose connection successful.");
-});
-
-
-
 
 app.get("/scrape", function (req, res) {
 
