@@ -18,7 +18,8 @@
         <li id="articleTitle"><span>{{this.title}}</span></li>
         <li id="articleSummary"><span> {{this.summary}}</span></li>
         <div>
-            <li id="articleLink"> <a href="{{this.link}}">Go to Article</a>
+            {{!-- <li id="articleLink"> <a href="{{this.link}}">Go to Article</a> --}}
+            <li>
                 <button data-id="{{this._id}}" class='btn-primary deleteButton'>Delete</button>
                 <button data-id="{{this._id}}"  class='btn-primary viewArticleButton'>View Article</button>
             </li>
