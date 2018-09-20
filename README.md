@@ -1,4 +1,3 @@
-# MongoDB
 # KC Sports Article Scraper
 [Check out the App](https://sportsnewsscraper.herokuapp.com/)
 
